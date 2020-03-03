@@ -9,23 +9,21 @@
     cancelText="关闭">
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-
         <a-form-item label="备件编码" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="[ 'attCode', validatorRules.attCode]" placeholder="请输入备件编码"></a-input>
+          <a-input v-decorator="[ 'attCode', validatorRules.attCode]" placeholder="请输入备件编码"/>
         </a-form-item>
         <a-form-item label="备件名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="[ 'attName', validatorRules.attName]" placeholder="请输入备件名称"></a-input>
+          <a-input v-decorator="[ 'attName', validatorRules.attName]" placeholder="请输入备件名称"/>
         </a-form-item>
         <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="[ 'remark', validatorRules.remark]" placeholder="请输入备注"></a-input>
+          <a-input v-decorator="[ 'remark', validatorRules.remark]" placeholder="请输入备注"/>
         </a-form-item>
-        <a-form-item label="设备id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <j-search-select-tag v-decorator="['equId', validatorRules.equId]" dict="" />
+        <a-form-item label="设备" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <j-multi-select-tag v-decorator="['equId', validatorRules.equId]" v-model="selectValue" :options="attEquList" placeholder="选择设备"/>
         </a-form-item>
-        <a-form-item label="供应商id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <j-search-select-tag v-decorator="['supId', validatorRules.supId]" dict="" />
+        <a-form-item label="供应商" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <j-multi-select-tag v-decorator="['supId', validatorRules.supId]" v-model="selectValue" :options="attSupList" placeholder="选择供应商" />
         </a-form-item>
-
       </a-form>
     </a-spin>
   </a-modal>
@@ -33,18 +31,23 @@
 
 <script>
 
-  import { httpAction } from '@/api/manage'
+  import { httpAction , getAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import { validateDuplicateValue } from '@/utils/util'
   import JSearchSelectTag from '@/components/dict/JSearchSelectTag'
+  import JMultiSelectTag from '@/components/dict/JMultiSelectTag'
 
   export default {
     name: "AttAttachmentModal",
-    components: { 
+    components: {
       JSearchSelectTag,
+      JMultiSelectTag
     },
     data () {
       return {
+        selectValue:"",
+        attEquList:[],
+        attSupList:[],
         form: this.$form.createForm(this),
         title:"操作",
         width:800,
@@ -82,6 +85,36 @@
     created () {
     },
     methods: {
+      initData(){
+        //设备下拉列表
+        getAction(`/business/attEquipment/list`).then(res=>{
+          this.loading=false;
+          if(res.success){
+            let list = res.result.records;
+            let array = [];
+            list.forEach( item =>{
+              array.push({label:item.equName,value:item.id})
+            });
+            this.attEquList = array;
+          }else{
+            this.$message.warning(res.message)
+          }
+        });
+        //供应商下拉列表
+        getAction(`/business/attSupplier/list`).then(res=>{
+          this.loading=false;
+          if(res.success){
+            let list = res.result.records;
+            let array = [];
+            list.forEach( item =>{
+              array.push({label:item.supName,value:item.id})
+            });
+            this.attSupList = array;
+          }else{
+            this.$message.warning(res.message)
+          }
+        });
+      },
       add () {
         this.edit({});
       },
@@ -91,6 +124,7 @@
         this.visible = true;
         this.$nextTick(() => {
           this.form.setFieldsValue(pick(this.model,'attCode','attName','remark','equId','supId'))
+          this.initData();
         })
       },
       close () {
@@ -126,7 +160,7 @@
               that.close();
             })
           }
-         
+
         })
       },
       handleCancel () {
@@ -136,7 +170,7 @@
         this.form.setFieldsValue(pick(row,'attCode','attName','remark','equId','supId'))
       },
 
-      
+
     }
   }
 </script>
