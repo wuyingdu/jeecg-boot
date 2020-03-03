@@ -10,11 +10,11 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 
-        <a-form-item label="备件id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <j-search-select-tag v-decorator="['attId', validatorRules.attId]" dict="" />
+        <a-form-item label="备件" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <j-multi-select-tag v-decorator="['attId', validatorRules.attId]" v-model="selectValue" :options="attAttList" placeholder="选择备件"/>
         </a-form-item>
-        <a-form-item label="领取人id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <j-search-select-tag v-decorator="['sysUserId', validatorRules.sysUserId]" dict="" />
+        <a-form-item label="领取人" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <j-multi-select-tag v-decorator="['sysUserId', validatorRules.sysUserId]" v-model="selectValue" :options="sysUserList" placeholder="选择领取人" />
         </a-form-item>
         <a-form-item label="数量" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input-number v-decorator="[ 'num', validatorRules.num]" placeholder="请输入数量" style="width: 100%"/>
@@ -23,7 +23,7 @@
           <j-date placeholder="请选择出库时间" v-decorator="[ 'outDateTime', validatorRules.outDateTime]" :trigger-change="true" style="width: 100%"/>
         </a-form-item>
         <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="[ 'remark', validatorRules.remark]" placeholder="请输入备注"></a-input>
+          <a-input v-decorator="[ 'remark', validatorRules.remark]" placeholder="请输入备注"/>
         </a-form-item>
 
       </a-form>
@@ -33,20 +33,23 @@
 
 <script>
 
-  import { httpAction } from '@/api/manage'
+  import { httpAction ,getAction, getUserList } from '@/api/manage'
   import pick from 'lodash.pick'
   import { validateDuplicateValue } from '@/utils/util'
-  import JDate from '@/components/jeecg/JDate'  
-  import JSearchSelectTag from '@/components/dict/JSearchSelectTag'
+  import JDate from '@/components/jeecg/JDate'
+  import JMultiSelectTag from '@/components/dict/JMultiSelectTag'
 
   export default {
     name: "AttOutStorehouseModal",
     components: { 
       JDate,
-      JSearchSelectTag,
+      JMultiSelectTag
     },
     data () {
       return {
+        selectValue:"",
+        attAttList:[],
+        sysUserList:[],
         form: this.$form.createForm(this),
         title:"操作",
         width:800,
@@ -84,6 +87,38 @@
     created () {
     },
     methods: {
+      initData(){
+        //备件下拉列表
+        getAction(`/business/attAttachment/list`).then(res=>{
+          this.loading=false;
+          if(res.success){
+            let list = res.result.records;
+            let array = [];
+            list.forEach( item =>{
+              array.push({label:item.attName,value:item.id})
+            });
+            this.attAttList = array;
+          }else{
+            this.$message.warning(res.message)
+          }
+        });
+        //人员下拉列表
+        getUserList().then(res=>{
+          debugger;
+          console.log(res);
+          this.loading=false;
+          if(res.status === 200){
+            let list = res.result.data;
+            let array = [];
+            list.forEach( item =>{
+              array.push({label:item.name,value:item.id})
+            });
+            this.sysUserList = array;
+          }else{
+            this.$message.warning(res.message)
+          }
+        });
+      },
       add () {
         this.edit({});
       },
@@ -92,7 +127,8 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'attId','sysUserId','num','outDateTime','remark'))
+          this.form.setFieldsValue(pick(this.model,'attId','sysUserId','num','outDateTime','remark'));
+          this.initData();
         })
       },
       close () {
