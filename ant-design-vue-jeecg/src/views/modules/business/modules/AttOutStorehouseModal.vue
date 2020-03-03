@@ -33,7 +33,7 @@
 
 <script>
 
-  import { httpAction ,getAction, getUserList } from '@/api/manage'
+  import { httpAction ,getAction } from '@/api/manage'
   import pick from 'lodash.pick'
   import { validateDuplicateValue } from '@/utils/util'
   import JDate from '@/components/jeecg/JDate'
@@ -103,15 +103,13 @@
           }
         });
         //人员下拉列表
-        getUserList().then(res=>{
-          debugger;
-          console.log(res);
+        getAction(`/sys/user/list`).then(res=>{
           this.loading=false;
-          if(res.status === 200){
-            let list = res.result.data;
+          if(res.success){
+            let list = res.result.records;
             let array = [];
             list.forEach( item =>{
-              array.push({label:item.name,value:item.id})
+              array.push({label:item.realname,value:item.id})
             });
             this.sysUserList = array;
           }else{

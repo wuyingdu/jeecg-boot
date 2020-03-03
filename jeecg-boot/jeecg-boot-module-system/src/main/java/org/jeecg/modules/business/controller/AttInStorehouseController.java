@@ -9,9 +9,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.business.entity.AttAttachment;
 import org.jeecg.modules.business.entity.AttInStorehouse;
 import org.jeecg.modules.business.service.IAttInStorehouseService;
 
@@ -66,9 +70,13 @@ public class AttInStorehouseController extends JeecgController<AttInStorehouse, 
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<AttInStorehouse> queryWrapper = QueryGenerator.initQueryWrapper(attInStorehouse, req.getParameterMap());
-		Page<AttInStorehouse> page = new Page<AttInStorehouse>(pageNo, pageSize);
-		IPage<AttInStorehouse> pageList = attInStorehouseService.page(page, queryWrapper);
+//		QueryWrapper<AttInStorehouse> queryWrapper = QueryGenerator.initQueryWrapper(attInStorehouse, req.getParameterMap());
+//		Page<AttInStorehouse> page = new Page<AttInStorehouse>(pageNo, pageSize);
+//		IPage<AttInStorehouse> pageList = attInStorehouseService.page(page, queryWrapper);
+
+		LambdaQueryWrapper<AttInStorehouse> wrapper = Wrappers.lambdaQuery(attInStorehouse);
+		Page<AttInStorehouse> page = new Page<>(pageNo, pageSize);
+		IPage<AttInStorehouse> pageList = attInStorehouseService.findPages(page, wrapper);
 		return Result.ok(pageList);
 	}
 	

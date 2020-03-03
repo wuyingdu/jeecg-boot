@@ -63,10 +63,22 @@ public class AttOutStorehouse implements Serializable {
 	@Excel(name = "备件id", width = 15)
     @ApiModelProperty(value = "备件id")
     private String attId;
+    /**备件编码*/
+    @Excel(name = "备件编码", width = 15)
+    @ApiModelProperty(value = "备件编码")
+    private String attCode;
+    /**备件名称*/
+    @Excel(name = "备件名称", width = 15)
+    @ApiModelProperty(value = "备件名称")
+    private String attName;
 	/**领取人id*/
 	@Excel(name = "领取人id", width = 15)
     @ApiModelProperty(value = "领取人id")
     private String sysUserId;
+    /**领取人姓名*/
+    @Excel(name = "领取人姓名", width = 15)
+    @ApiModelProperty(value = "领取人姓名")
+    private String realname;
 	/**数量*/
 	@Excel(name = "数量", width = 15)
     @ApiModelProperty(value = "数量")

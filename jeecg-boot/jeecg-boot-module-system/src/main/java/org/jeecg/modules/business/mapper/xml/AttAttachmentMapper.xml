@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jeecg.modules.business.mapper.AttAttachmentMapper">
 
+
+    <select id="findPages" resultType="org.jeecg.modules.business.entity.AttAttachment">
+        SELECT
+            A.*,
+            B.equ_code,
+            B.equ_name,
+            C.sup_code,
+            C.sup_name
+        FROM att_attachment A
+        LEFT JOIN att_equipment B ON A.equ_id = B.id
+        LEFT JOIN att_supplier C ON C.id = A.sup_id
+        ${ew.customSqlSegment}
+    </select>
+
 </mapper>

@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jeecg.modules.business.mapper.AttOutStorehouseMapper">
 
+
+    <select id="findPages" resultType="org.jeecg.modules.business.entity.AttOutStorehouse">
+        SELECT
+            A.*,
+            B.att_code,
+            B.att_name,
+            C.realname
+        FROM att_out_storehouse A
+        LEFT JOIN att_attachment B ON B.id = A.att_id
+        LEFT JOIN sys_user C ON C.id = A.sys_user_id
+        ${ew.customSqlSegment}
+    </select>
+
 </mapper>

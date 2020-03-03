@@ -75,8 +75,24 @@ public class AttAttachment implements Serializable {
 	@Excel(name = "设备id", width = 15)
     @ApiModelProperty(value = "设备id")
     private String equId;
+    /**设备编码*/
+    @Excel(name = "设备编码", width = 15)
+    @ApiModelProperty(value = "设备编码")
+    private String equCode;
+    /**设备名称*/
+    @Excel(name = "设备名称", width = 15)
+    @ApiModelProperty(value = "设备名称")
+    private String equName;
 	/**供应商id*/
 	@Excel(name = "供应商id", width = 15)
     @ApiModelProperty(value = "供应商id")
     private String supId;
+    /**供应商编码*/
+    @Excel(name = "供应商编码", width = 15)
+    @ApiModelProperty(value = "供应商编码")
+    private String supCode;
+    /**供应商名称*/
+    @Excel(name = "供应商名称", width = 15)
+    @ApiModelProperty(value = "供应商名称")
+    private String supName;
 }

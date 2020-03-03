@@ -104,6 +104,11 @@
                   <a>删除</a>
                 </a-popconfirm>
               </a-menu-item>
+              <a-menu-item>
+                <a-popconfirm title="确定通过吗?" @confirm="() => shandleDelete(record.id)">
+                  <a>通过</a>
+                </a-popconfirm>
+              </a-menu-item>
             </a-menu>
           </a-dropdown>
         </span>
@@ -144,14 +149,24 @@
             }
           },
           {
-            title:'备件id',
+            title:'备件编码',
             align:"center",
-            dataIndex: 'attId'
+            dataIndex: 'attCode'
           },
           {
-            title:'供应商id',
+            title:'备件名称',
             align:"center",
-            dataIndex: 'supId'
+            dataIndex: 'attName'
+          },
+          {
+            title:'供应商编码',
+            align:"center",
+            dataIndex: 'supCode'
+          },
+          {
+            title:'供应商名称',
+            align:"center",
+            dataIndex: 'supName'
           },
           {
             title:'数量',

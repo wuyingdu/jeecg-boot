@@ -9,9 +9,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.business.entity.AttInStorehouse;
 import org.jeecg.modules.business.entity.AttOutStorehouse;
 import org.jeecg.modules.business.service.IAttOutStorehouseService;
 
@@ -20,6 +24,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.system.controller.SysUserController;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -66,9 +71,12 @@ public class AttOutStorehouseController extends JeecgController<AttOutStorehouse
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<AttOutStorehouse> queryWrapper = QueryGenerator.initQueryWrapper(attOutStorehouse, req.getParameterMap());
-		Page<AttOutStorehouse> page = new Page<AttOutStorehouse>(pageNo, pageSize);
-		IPage<AttOutStorehouse> pageList = attOutStorehouseService.page(page, queryWrapper);
+//		QueryWrapper<AttOutStorehouse> queryWrapper = QueryGenerator.initQueryWrapper(attOutStorehouse, req.getParameterMap());
+//		Page<AttOutStorehouse> page = new Page<AttOutStorehouse>(pageNo, pageSize);
+//		IPage<AttOutStorehouse> pageList = attOutStorehouseService.page(page, queryWrapper);
+		LambdaQueryWrapper<AttOutStorehouse> wrapper = Wrappers.lambdaQuery(attOutStorehouse);
+		Page<AttOutStorehouse> page = new Page<>(pageNo, pageSize);
+		IPage<AttOutStorehouse> pageList = attOutStorehouseService.findPages(page, wrapper);
 		return Result.ok(pageList);
 	}
 	

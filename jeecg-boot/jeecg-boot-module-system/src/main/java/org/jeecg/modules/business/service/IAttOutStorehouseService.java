@@ -1,5 +1,8 @@
 package org.jeecg.modules.business.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.business.entity.AttOutStorehouse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -11,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IAttOutStorehouseService extends IService<AttOutStorehouse> {
 
+    /**
+     * 分页
+     * @param page
+     * @param wrapper
+     * @return
+     */
+    IPage<AttOutStorehouse> findPages(Page<AttOutStorehouse> page, LambdaQueryWrapper<AttOutStorehouse> wrapper);
 }

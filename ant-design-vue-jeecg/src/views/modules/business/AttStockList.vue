@@ -135,9 +135,14 @@
             }
           },
           {
-            title:'备件id',
+            title:'备件编码',
             align:"center",
-            dataIndex: 'attId'
+            dataIndex: 'attName'
+          },
+          {
+            title:'备件名称',
+            align:"center",
+            dataIndex: 'attCode'
           },
           {
             title:'数量',

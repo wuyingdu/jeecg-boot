@@ -150,14 +150,24 @@
             dataIndex: 'remark'
           },
           {
-            title:'设备id',
+            title:'设备编码',
             align:"center",
-            dataIndex: 'equId_dictText'
+            dataIndex: 'equCode'
           },
           {
-            title:'供应商id',
+            title:'设备名称',
             align:"center",
-            dataIndex: 'supId_dictText'
+            dataIndex: 'equName'
+          },
+          {
+            title:'供应商编码',
+            align:"center",
+            dataIndex: 'supCode'
+          },
+          {
+            title:'供应商名称',
+            align:"center",
+            dataIndex: 'supName'
           },
           {
             title: '操作',

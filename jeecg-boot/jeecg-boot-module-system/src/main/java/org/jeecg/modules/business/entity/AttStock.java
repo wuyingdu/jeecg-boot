@@ -63,6 +63,14 @@ public class AttStock implements Serializable {
 	@Excel(name = "备件id", width = 15)
     @ApiModelProperty(value = "备件id")
     private String attId;
+    /**备件编码*/
+    @Excel(name = "备件编码", width = 15)
+    @ApiModelProperty(value = "备件编码")
+    private String attCode;
+    /**备件名称*/
+    @Excel(name = "备件名称", width = 15)
+    @ApiModelProperty(value = "备件名称")
+    private String attName;
 	/**数量*/
 	@Excel(name = "数量", width = 15)
     @ApiModelProperty(value = "数量")

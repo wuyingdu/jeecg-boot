@@ -104,6 +104,11 @@
                   <a>删除</a>
                 </a-popconfirm>
               </a-menu-item>
+              <a-menu-item>
+                <a-popconfirm title="确定通过吗?" @confirm="() => shandleDelete(record.id)">
+                  <a>通过</a>
+                </a-popconfirm>
+              </a-menu-item>
             </a-menu>
           </a-dropdown>
         </span>
@@ -144,14 +149,19 @@
             }
           },
           {
-            title:'备件id',
+            title:'备件编码',
             align:"center",
-            dataIndex: 'attId_dictText'
+            dataIndex: 'attCode'
           },
           {
-            title:'领取人id',
+            title:'备件名称',
             align:"center",
-            dataIndex: 'sysUserId_dictText'
+            dataIndex: 'attName'
+          },
+          {
+            title:'领取人姓名',
+            align:"center",
+            dataIndex: 'realname'
           },
           {
             title:'数量',

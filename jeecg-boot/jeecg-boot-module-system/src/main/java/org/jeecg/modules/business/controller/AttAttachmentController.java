@@ -9,6 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
@@ -22,6 +27,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.system.controller.SysUserController;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -68,9 +74,12 @@ public class AttAttachmentController extends JeecgController<AttAttachment, IAtt
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<AttAttachment> queryWrapper = QueryGenerator.initQueryWrapper(attAttachment, req.getParameterMap());
-		Page<AttAttachment> page = new Page<AttAttachment>(pageNo, pageSize);
-		IPage<AttAttachment> pageList = attAttachmentService.page(page, queryWrapper);
+//		QueryWrapper<AttAttachment> queryWrapper = QueryGenerator.initQueryWrapper(attAttachment, req.getParameterMap());
+//		Page<AttAttachment> page = new Page<AttAttachment>(pageNo, pageSize);
+//		IPage<AttAttachment> pageList = attAttachmentService.page(page, queryWrapper);
+		LambdaQueryWrapper<AttAttachment> wrapper = Wrappers.lambdaQuery(attAttachment);
+		Page<AttAttachment> page = new Page<>(pageNo, pageSize);
+		IPage<AttAttachment> pageList = attAttachmentService.findPages(page, wrapper);
 		return Result.ok(pageList);
 	}
 	
